@@ -1,22 +1,23 @@
-import pygame as pg
-import entities.entities as ent
-import registries
 import queue
+import pygame as pg
+import entities.zombies as ent
+from entities.player import Player
 from resources.mappings.player_input import inp, p_inp_map, r_inp_map
-
-import registries.zombie_registry
+from registries.zombie_registry import ZombieRegistry
+from registries.bullet_registry import TracerRegistry, BulletRegistry
+from registries.weapon_registry import WeaponRegistry
+from entities.hitreg import hitreg
 
 pg.init()
 screen = pg.display.set_mode((1920, 1080))
 clock = pg.time.Clock()
 running = True
 eventQ = queue.Queue()
-entity_sprites = pg.sprite.RenderPlain(())
-zombie_registry = registries.zombie_registry.ZombieRegistry(entity_sprites)
-player_sprite = pg.sprite.RenderPlain(())
-player = ent.Player()
-player_sprite.add(player)
-
+zombie_registry = ZombieRegistry(pg.sprite.RenderPlain(()))
+bullet_registry = BulletRegistry(TracerRegistry(1000, screen), 200)
+weapon_registry = WeaponRegistry(pg.sprite.RenderPlain(()))
+weapon_registry.load_default_weapons(bullet_registry)
+player = Player(screen, weapon_registry, pg.sprite.RenderPlain(()))
 
 while running:
     # poll for events
@@ -34,14 +35,22 @@ while running:
     while not eventQ.empty():
         event = eventQ.get()
         if event == "NewRound":
-            zombie_registry.register(ent.Zombie('zombie.png', ""))
+            zombie_registry.register(ent.Zombie('zombie'))
+
+    #hit register
+    bullets = bullet_registry.get()
+    zombies = zombie_registry.get()
+    for bullet in bullets:
+        for zombie in zombies:
+            if(hitreg(zombie.hitbox, bullet)):
+                zombie.hit(bullet.damage)
+                bullet.hit()
 
     # render game
-    screen.fill(color=(255,255,255))
-    entity_sprites.update()
-    player_sprite.update(inp)
-    entity_sprites.draw(screen)
-    player_sprite.draw(screen)
+    screen.fill(color=(200,200,200))
+    bullet_registry.update()
+    player.process(inp)
+    zombie_registry.update(screen)
     pg.display.flip()
 
     #Add events and process end of frame

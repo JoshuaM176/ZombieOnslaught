@@ -1,5 +1,5 @@
 import pygame as pg
-from entities.entities import Zombie
+from entities.zombies import Zombie
 
 class ZombieRegistry:
     def __init__(self, render_plain: pg.sprite.RenderPlain):
@@ -20,6 +20,13 @@ class ZombieRegistry:
                 self.deregister(zombie)
             elif zombie.health < 0:
                 self.deregister(zombie)
+
+    def update(self, screen: pg.display):
+        self.render_plain.update()
+        self.render_plain.draw(screen)
+
+    def get(self) -> list[Zombie]:
+        return self.zombies
 
     def isEmpty(self):
         if len(self.zombies) > 0:

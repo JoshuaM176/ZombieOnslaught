@@ -1,0 +1,8 @@
+{
+    "zombie": {
+        "sprite": "zombie.png",
+        "health": 10,
+        "speed": 5,
+        "hitbox": [20, 0, 40, 80]
+    }
+}

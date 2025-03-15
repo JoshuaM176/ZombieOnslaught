@@ -3,8 +3,8 @@ from os import path, curdir
 
 ROOT = path.abspath(curdir)
 
-def load_sprite(name, colorkey=None, scale=1):
-    fullname = path.join(ROOT, 'resources', 'textures', name)
+def load_sprite(name: str, category: str, colorkey=None, scale=8):
+    fullname = path.join(ROOT, 'resources', 'textures', category, name)
     image = pg.image.load(fullname)
 
     size = image.get_size()

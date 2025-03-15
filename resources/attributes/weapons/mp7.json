@@ -1,0 +1,15 @@
+{
+    "mp7": {
+        "sprite": "mp7.png",
+        "speed": 6,
+        "damage": 10,
+        "dropoff": 1,
+        "firerate": 1200,
+        "velocity": 25,
+        "penetration": 0.1,
+        "shiftX": 40,
+        "shiftY": 20,
+        "bShiftX": 20,
+        "bShiftY": 60
+    }
+}
