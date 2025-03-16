@@ -1,5 +1,6 @@
 import json
 from os import path, curdir, listdir
+from copy import deepcopy
 
 ROOT = path.abspath(curdir)
 
@@ -25,4 +26,4 @@ class ResourceLoader:
             data[key] = value
 
     def get(self, name: str):
-        return self.resources[name]
+        return deepcopy(self.resources[name])

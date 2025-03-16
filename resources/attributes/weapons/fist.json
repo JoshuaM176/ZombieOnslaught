@@ -1,6 +1,8 @@
 {
     "fist": {
-        "player": {},
+        "player": {
+            "movement": 0
+        },
         "weapon":{
             "sprite": "none.png",
             "firerate": 60

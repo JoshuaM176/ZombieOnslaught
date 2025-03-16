@@ -17,10 +17,10 @@ class Zombie(Entity):
         resources = zombie_loader.get(attributes)
         Entity.__init__(self, resources, 'zombies', x, y)
         self.weapon_registry = WeaponRegistry(pg.sprite.RenderPlain(()), ["Fist"])
-        weapon_resources = weapon_loader.get(resources["weapon"])
-        self.weapon = Weapon(bullet_registry, resources = weapon_resources)
+        self.weapon_resources = weapon_loader.get(resources["weapon"])
+        self.weapon = Weapon(bullet_registry, resources = self.weapon_resources)
         self.weapon_registry.register("Fist", self.weapon)
-        self.weapon_registry.equip("Fist", 0)
+        self.weapon_registry.equip("Fist")
 
     def hit(self, damage):
         self.health -= damage

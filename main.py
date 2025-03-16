@@ -5,7 +5,6 @@ from entities.player import Player
 from resources.mappings.player_input import inp, p_inp_map, r_inp_map
 from registries.zombie_registry import ZombieRegistry
 from registries.bullet_registry import TracerRegistry, BulletRegistry
-from registries.weapon_registry import WeaponRegistry
 from entities.hitreg import hitreg, hitreg1
 
 pg.init()
@@ -16,9 +15,7 @@ eventQ = queue.Queue()
 zombie_registry = ZombieRegistry(pg.sprite.RenderPlain(()))
 zombie_bullet_registry = BulletRegistry(TracerRegistry(1000, screen), 200)
 bullet_registry = BulletRegistry(TracerRegistry(1000, screen), 200)
-weapon_registry = WeaponRegistry(pg.sprite.RenderPlain(()), ["Melee", "SMG", "Pistol", "Rifle", "Shotgun", "Sniper"])
-weapon_registry.load_default_weapons(bullet_registry)
-player = Player(screen, weapon_registry, pg.sprite.RenderPlain(()))
+player = Player(screen, bullet_registry, pg.sprite.RenderPlain(()))
 
 while running:
     # poll for events
