@@ -22,19 +22,23 @@ class Player(pg.sprite.Sprite):
 
 
     def process(self, inp: dict):
+        #Movement
         mult = math.sqrt((inp["hor"]**2 + inp["ver"]**2))
         if mult != 0:
             speed = self.speed * (inp["sprint"])
             self.posx += speed * inp["hor"]/mult
             self.posy += speed * inp["ver"]/mult
+        #Switch weapons
         if inp["eq"] == 1:
-            self.weapon_registry.next()
+            self.speed = self.weapon_registry.next()
             inp["eq"] = 0
         if inp["eq"] == -1:
-            self.weapon_registry.previous()
+            self.speed = self.weapon_registry.previous()
             inp["eq"] = 0
+        #Shooting
         if inp["shooting"] == 1:
             self.shooting = True
+
         else: self.shooting = False
         self.rect.topleft = (self.posx, self.posy)
         self.render_plain.update()

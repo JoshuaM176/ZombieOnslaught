@@ -46,8 +46,12 @@ while running:
                 zombie.hit(bullet.damage)
                 bullet.hit()
 
-    # render game
+    # clear screen
     screen.fill(color=(200,200,200))
+    #debug
+    #for zombie in zombies:
+        #zombie.hitbox.display(screen)
+    #render game
     bullet_registry.update()
     player.process(inp)
     zombie_registry.update(screen)

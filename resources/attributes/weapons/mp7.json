@@ -1,7 +1,7 @@
 {
     "mp7": {
         "sprite": "mp7.png",
-        "speed": 6,
+        "movement": 6,
         "damage": 10,
         "dropoff": 1,
         "firerate": 1200,

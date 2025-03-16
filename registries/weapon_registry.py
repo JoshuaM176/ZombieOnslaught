@@ -25,12 +25,14 @@ class WeaponRegistry:
             self.render_plain.remove(self.weapons[self.weapon_classes[self.index]])
             self.index +=1
             self.__equip__(self.weapon_classes[self.index])
+        return self.weapons[self.weapon_classes[self.index]].movement
 
     def previous(self):
         if self.index > 0:
             self.render_plain.remove(self.weapons[self.weapon_classes[self.index]])
             self.index -=1
             self.__equip__(self.weapon_classes[self.index])
+        return self.weapons[self.weapon_classes[self.index]].movement
     
     def update(self, screen: pg.display, pX: int, pY: int, shoot: bool):
         self.render_plain.update(pX, pY, shoot)

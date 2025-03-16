@@ -1,5 +1,12 @@
 {
     "chainsaw": {
-        "sprite": "chainsaw.png"
+        "sprite": "chainsaw.png",
+        "movement": 8,
+        "damage": 40,
+        "dropoff": 120,
+        "shiftX": 40,
+        "shiftY": 15,
+        "bShiftX": 5,
+        "bShiftY": 80
     }
 }
