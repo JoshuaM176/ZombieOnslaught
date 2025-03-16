@@ -44,6 +44,7 @@ while running:
     # clear screen
     screen.fill(color=(200,200,200))
     #debug
+    #zombies = zombie_registry.get()
     #for zombie in zombies:
         #zombie.hitbox.display(screen)
     #player.hitbox.display(screen)

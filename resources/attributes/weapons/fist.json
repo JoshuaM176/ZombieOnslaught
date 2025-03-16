@@ -1,5 +1,5 @@
 {
-    "none": {
+    "fist": {
         "player": {},
         "weapon":{
             "sprite": "none.png",
@@ -7,11 +7,12 @@
         },
         "bullet": {
             "damage": 10,
-            "dropoff": 1,
+            "dropoff": 10,
             "speed": -25,
             "penetration": 0,
             "shiftX": 80,
-            "shiftY": 60
+            "shiftY": 60,
+            "tracer": "false"
         }
     }
 }

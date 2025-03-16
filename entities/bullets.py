@@ -9,7 +9,7 @@ class Bullet:
         self.ver = mult*ver
         self.damage = damage
         self.penetration = penetration
-        self.dropoff = dropoff * speed/100
+        self.dropoff = dropoff * abs(speed)/100
         self.color = color
         self.tracer = tracer
 

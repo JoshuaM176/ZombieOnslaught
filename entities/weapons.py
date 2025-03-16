@@ -27,7 +27,6 @@ class Weapon(pg.sprite.Sprite):
             self.bullet['tracer'] = True
         self.weapon['shiftX'] = self.weapon.get('shiftX') or 0
         self.weapon['shiftY'] = self.weapon.get('shiftY') or 0
-
         
         self.clock = 0
         self.ticksToFire = 3600/self.weapon['firerate']

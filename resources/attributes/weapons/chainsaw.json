@@ -5,17 +5,18 @@
         },
         "weapon": {
             "sprite": "chainsaw.png",
-            "firerate": 60,
+            "firerate": 600,
             "shiftX": 40,
             "shiftY": 15
         },
         "bullet": {
             "damage": 40,
-            "dropoff": 120,
+            "dropoff": 75,
             "speed": 10,
             "penetration": 1,
-            "shiftX": 5,
-            "shiftY": 65
+            "shiftX": 10,
+            "shiftY": 75,
+            "tracer": "false"
         }
     }
 }

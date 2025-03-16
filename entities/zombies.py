@@ -16,20 +16,21 @@ class Zombie(Entity):
     def __init__(self, attributes: str, x: int, y: int, bullet_registry: BulletRegistry):
         resources = zombie_loader.get(attributes)
         Entity.__init__(self, resources, 'zombies', x, y)
-        self.weapon_registry = WeaponRegistry(pg.sprite.RenderPlain(()), ["None"])
+        self.weapon_registry = WeaponRegistry(pg.sprite.RenderPlain(()), ["Fist"])
         weapon_resources = weapon_loader.get(resources["weapon"])
-        self.weapon = Weapon(bullet_registry, resources["weapon"])
-        self.weapon_registry.register("None", self.weapon)
-        self.weapon_registry.equip("None", 0)
-
+        self.weapon = Weapon(bullet_registry, resources = weapon_resources)
+        self.weapon_registry.register("Fist", self.weapon)
+        self.weapon_registry.equip("Fist", 0)
 
     def hit(self, damage):
         self.health -= damage
 
-    def update(self, screen):
+    def update_weapon(self, screen):
+        self.weapon_registry.update(screen, self.posx, self.posy, True)
+
+    def update(self):
         self.posx -= self.speed
         self.hitbox.update(self.posx, self.posy)
-        self.weapon_registry.update(screen, self.posx, self.posy, True)
         self.rect.topleft = (self.posx, self.posy)
 
 
