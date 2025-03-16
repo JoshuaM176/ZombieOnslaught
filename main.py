@@ -35,7 +35,7 @@ while running:
     while not eventQ.empty():
         event = eventQ.get()
         if event == "NewRound":
-            zombie_registry.register(ent.Zombie('zombie'))
+            zombie_registry.register(ent.Zombie('zombie', 1500, 500))
 
     #hit register
     bullets = bullet_registry.get()
