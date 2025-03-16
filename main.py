@@ -6,7 +6,7 @@ from resources.mappings.player_input import inp, p_inp_map, r_inp_map
 from registries.zombie_registry import ZombieRegistry
 from registries.bullet_registry import TracerRegistry, BulletRegistry
 from registries.weapon_registry import WeaponRegistry
-from entities.hitreg import hitreg
+from entities.hitreg import hitreg, hitreg1
 
 pg.init()
 screen = pg.display.set_mode((1920, 1080))
@@ -40,6 +40,8 @@ while running:
 
     #hit register
     hitreg(zombie_registry, bullet_registry)
+
+    hitreg1([player], zombie_bullet_registry.get())
 
     # clear screen
     screen.fill(color=(200,200,200))

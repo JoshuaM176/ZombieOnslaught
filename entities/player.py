@@ -14,9 +14,11 @@ class Player(Entity):
         self.render_plain.add(self)
         self.shooting = False
 
+    def hit(self, damage):
+        self.health -= damage
+
     def update(self):
         self.render_plain.draw(self.screen)
-
 
     def process(self, inp: dict):
         #Movement
