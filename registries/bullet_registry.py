@@ -47,7 +47,7 @@ class BulletRegistry:
     def update(self):
         for bullet in self.bullets:
             if bullet is not None:
-                if bullet.x < 3000 and bullet.y < 1500 and bullet.damage > 0:
+                if bullet.x > -100 and bullet.x < 3000 and bullet.y > -500 and bullet.y < 1500 and bullet.damage > 0:
                     if bullet.tracer == True:
                         self.tracer_registry.register(Tracer(*bullet.update()))
                     else: bullet.update()

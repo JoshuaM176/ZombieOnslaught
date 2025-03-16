@@ -10,7 +10,7 @@ class WeaponRegistry:
         self.render_plain = render_plain
         self.equipped = None
 
-    def equip(self, type: str):
+    def equip(self, type: str) -> int:
         if self.get_equipped() != None:
             self.render_plain.remove(self.get_equipped())
         self.render_plain.add(self.weapons[type])
