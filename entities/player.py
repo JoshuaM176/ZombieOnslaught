@@ -2,19 +2,17 @@ import math
 import pygame as pg
 from resources.resources import load_sprite
 from registries.weapon_registry import WeaponRegistry
+from entities.entity import Entity
 
-class Player(pg.sprite.Sprite):
+class Player(Entity):
     
-    def __init__(self, screen, weapon_registry: WeaponRegistry, render_plain: pg.sprite.RenderPlain, colorkey = -1):
-        pg.sprite.Sprite.__init__(self)
+    def __init__(self, screen, weapon_registry: WeaponRegistry, render_plain: pg.sprite.RenderPlain):
+        resources = {"sprite": "player.png", "speed": 5, "health": 10, "hitbox": [24, 16, 72, 112]}
+        Entity.__init__(self, resources, "player", 300, 300)
         self.weapon_registry = weapon_registry
         self.render_plain = render_plain
         self.screen = screen
-        self.image, self.rect = load_sprite('player.png', 'player', colorkey)
         self.render_plain.add(self)
-        self.posx = 300
-        self.posy = 300
-        self.speed = 5
         self.shooting = False
 
     def update(self):
@@ -28,6 +26,7 @@ class Player(pg.sprite.Sprite):
             speed = self.speed * (inp["sprint"])
             self.posx += speed * inp["hor"]/mult
             self.posy += speed * inp["ver"]/mult
+            self.hitbox.update(self.posx, self.posy)
         #Switch weapons
         if inp["eq"] == 1:
             self.speed = self.weapon_registry.next()

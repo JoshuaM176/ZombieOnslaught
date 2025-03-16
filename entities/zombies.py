@@ -9,9 +9,9 @@ zombie_loader.load_all()
 
 class Zombie(Entity):
 
-    def __init__(self, attributes: str, x: int, y: int, colorkey = -1):
+    def __init__(self, attributes: str, x: int, y: int):
         resources = zombie_loader.get(attributes)
-        Entity.__init__(self, attributes, resources, 'zombies', x, y)
+        Entity.__init__(self, resources, 'zombies', x, y)
 
     def hit(self, damage):
         self.health -= damage

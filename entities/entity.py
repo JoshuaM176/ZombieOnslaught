@@ -4,7 +4,7 @@ from entities.hitbox import HitBox
 
 class Entity(pg.sprite.Sprite):
 
-    def __init__(self, attributes: str, resources: dict, category: str, x, y, colorkey = -1):
+    def __init__(self, resources: dict, category: str, x, y, colorkey = -1):
         pg.sprite.Sprite.__init__(self)
         self.sprite = resources.get('sprite') or 'zombie.png'
         self.image, self.rect = load_sprite(self.sprite, category, colorkey)

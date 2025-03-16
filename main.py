@@ -51,6 +51,7 @@ while running:
     #debug
     #for zombie in zombies:
         #zombie.hitbox.display(screen)
+    #player.hitbox.display(screen)
     #render game
     bullet_registry.update()
     player.process(inp)
