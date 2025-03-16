@@ -1,6 +1,5 @@
 import math
 import pygame as pg
-from resources.resources import load_sprite
 from registries.weapon_registry import WeaponRegistry
 from entities.entity import Entity
 
@@ -37,7 +36,6 @@ class Player(Entity):
         #Shooting
         if inp["shooting"] == 1:
             self.shooting = True
-
         else: self.shooting = False
         self.rect.topleft = (self.posx, self.posy)
         self.render_plain.update()

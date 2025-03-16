@@ -48,6 +48,8 @@ class BulletRegistry:
         for bullet in self.bullets:
             if bullet is not None:
                 if bullet.x < 3000 and bullet.y < 1500 and bullet.damage > 0:
-                    self.tracer_registry.register(Tracer(*bullet.update()))
+                    if bullet.tracer == True:
+                        self.tracer_registry.register(Tracer(*bullet.update()))
+                    else: bullet.update()
         self.tracer_registry.update()
 

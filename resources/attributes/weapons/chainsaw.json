@@ -1,12 +1,21 @@
 {
     "chainsaw": {
-        "sprite": "chainsaw.png",
-        "movement": 8,
-        "damage": 40,
-        "dropoff": 120,
-        "shiftX": 40,
-        "shiftY": 15,
-        "bShiftX": 5,
-        "bShiftY": 80
+        "player": {
+            "movement": 8
+        },
+        "weapon": {
+            "sprite": "chainsaw.png",
+            "firerate": 60,
+            "shiftX": 40,
+            "shiftY": 15
+        },
+        "bullet": {
+            "damage": 40,
+            "dropoff": 120,
+            "speed": 10,
+            "penetration": 1,
+            "shiftX": 5,
+            "shiftY": 65
+        }
     }
 }

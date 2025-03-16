@@ -20,5 +20,9 @@ class ResourceLoader:
         for file in self.files:
             self.load(path.join(self.rPath, file))
 
+    def update(self, data: dict, new_data: dict):
+        for key, value in new_data:
+            data[key] = value
+
     def get(self, name: str):
         return self.resources[name]

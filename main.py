@@ -14,8 +14,9 @@ clock = pg.time.Clock()
 running = True
 eventQ = queue.Queue()
 zombie_registry = ZombieRegistry(pg.sprite.RenderPlain(()))
+zombie_bullet_registry = BulletRegistry(TracerRegistry(1000, screen), 200)
 bullet_registry = BulletRegistry(TracerRegistry(1000, screen), 200)
-weapon_registry = WeaponRegistry(pg.sprite.RenderPlain(()))
+weapon_registry = WeaponRegistry(pg.sprite.RenderPlain(()), ["Melee", "SMG", "Pistol", "Rifle", "Shotgun", "Sniper"])
 weapon_registry.load_default_weapons(bullet_registry)
 player = Player(screen, weapon_registry, pg.sprite.RenderPlain(()))
 
@@ -35,7 +36,7 @@ while running:
     while not eventQ.empty():
         event = eventQ.get()
         if event == "NewRound":
-            zombie_registry.register(ent.Zombie('zombie', 1500, 500))
+            zombie_registry.register(ent.Zombie('zombie', 1500, 500, zombie_bullet_registry))
 
     #hit register
     hitreg(zombie_registry, bullet_registry)
@@ -48,6 +49,7 @@ while running:
     #player.hitbox.display(screen)
     #render game
     bullet_registry.update()
+    zombie_bullet_registry.update()
     player.process(inp)
     zombie_registry.update(screen)
     pg.display.flip()

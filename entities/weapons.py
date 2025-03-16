@@ -9,31 +9,41 @@ weapon_loader.load_all()
 
 class Weapon(pg.sprite.Sprite):
 
-    def __init__(self, attributes: str, bullet_registry: BulletRegistry, colorkey = -1):
+    def __init__(self, bullet_registry: BulletRegistry, attributes = "", colorkey = -1, resources = None):
+        #load weapon
         pg.sprite.Sprite.__init__(self)
         self.bullet_registry = bullet_registry
-        resources = weapon_loader.get(attributes)
-        sprite = resources.get('sprite') or 'mp7'
-        self.image, self.rect = load_sprite(sprite, 'weapons', colorkey)
-        self.movement = resources.get('movement') or 5
-        self.damage = resources.get('damage') or 10
-        self.firerate = resources.get('firerate') or 600
-        self.dropoff = resources.get('dropoff') or 1
-        self.velocity = resources.get('velocity') or 25
-        self.penetration = resources.get('penetration') or 0.1
-        self.shiftX = resources.get("shiftX") or 0
-        self.shiftY = resources.get("shiftY") or 0
-        self.bShiftX = resources.get("bShiftX") or 0
-        self.bShiftY = resources.get("bShiftY") or 0
+        if resources == None:
+            resources = self.get_resources(attributes)
+        self.weapon = resources['weapon']
+        self.image, self.rect = load_sprite(self.weapon['sprite'], 'weapons', colorkey)
+        self.player = resources['player']
+        self.bullet = resources["bullet"]
+
+        #set defaults
+        if self.bullet.get('tracer') == "false":
+            self.bullet['tracer'] = False
+        else:
+            self.bullet['tracer'] = True
+        self.weapon['shiftX'] = self.weapon.get('shiftX') or 0
+        self.weapon['shiftY'] = self.weapon.get('shiftY') or 0
+
+        
         self.clock = 0
-        self.ticksToFire = 3600/self.firerate
+        self.ticksToFire = 3600/self.weapon['firerate']
+
+    def get_resources(self, attributes: str) -> dict:
+        resources = weapon_loader.get(attributes)
+        return resources
 
     def shoot(self, x: int, y: int):
-        self.bullet_registry.register(Bullet(x + self.bShiftX, y + self.bShiftY, 15, 1, 25, self.damage, self.dropoff, self.penetration))
+        self.bullet["x"] = x + self.bullet["shiftX"]
+        self.bullet["y"] = y + self.bullet["shiftY"]
+        self.bullet_registry.register(Bullet(**self.bullet, hor = 15, ver = 1, color = self.bullet.get('color') or (250, 250, 0)))
 
     def update(self, pX, pY, shoot):
-        x = pX + self.shiftX
-        y = pY + self.shiftY
+        x = pX + self.weapon["shiftX"]
+        y = pY + self.weapon["shiftY"]
         if self.clock < self.ticksToFire:
             self.clock+=1
         if shoot and self.clock >= self.ticksToFire:

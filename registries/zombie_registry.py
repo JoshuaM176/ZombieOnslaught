@@ -22,7 +22,7 @@ class ZombieRegistry:
                 self.deregister(zombie)
 
     def update(self, screen: pg.display):
-        self.render_plain.update()
+        self.render_plain.update(screen)
         self.render_plain.draw(screen)
 
     def get(self) -> list[Zombie]:

@@ -1,0 +1,17 @@
+{
+    "none": {
+        "player": {},
+        "weapon":{
+            "sprite": "none.png",
+            "firerate": 60
+        },
+        "bullet": {
+            "damage": 10,
+            "dropoff": 1,
+            "speed": -25,
+            "penetration": 0,
+            "shiftX": 80,
+            "shiftY": 60
+        }
+    }
+}
