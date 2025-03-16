@@ -6,11 +6,14 @@ from resources.mappings.player_input import inp, p_inp_map, r_inp_map
 from registries.zombie_registry import ZombieRegistry
 from registries.bullet_registry import TracerRegistry, BulletRegistry
 from entities.hitreg import hitreg, hitreg1
+from ui.ui import UI
+from game.game import Game
 
 pg.init()
 screen = pg.display.set_mode((1920, 1080))
 clock = pg.time.Clock()
 running = True
+game = Game()
 eventQ = queue.Queue()
 zombie_registry = ZombieRegistry(pg.sprite.RenderPlain(()))
 zombie_bullet_registry = BulletRegistry(TracerRegistry(1000, screen), 200)
@@ -33,7 +36,7 @@ while running:
     while not eventQ.empty():
         event = eventQ.get()
         if event == "NewRound":
-            zombie_registry.register(ent.Zombie('zombie', 1500, 500, zombie_bullet_registry))
+            game.new_wave(zombie_registry, zombie_bullet_registry, *screen.get_size())
 
     #hit register
     hitreg(zombie_registry, bullet_registry)
@@ -52,6 +55,7 @@ while running:
     zombie_bullet_registry.update()
     player.process(inp)
     zombie_registry.update(screen)
+
     pg.display.flip()
 
     #Add events and process end of frame

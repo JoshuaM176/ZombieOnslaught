@@ -13,14 +13,18 @@ weapon_loader.load_all()
 
 class Zombie(Entity):
 
-    def __init__(self, attributes: str, x: int, y: int, bullet_registry: BulletRegistry):
+    def __init__(self, attributes: str, x: int, y: int, bullet_registry: BulletRegistry, difficulty: int):
+        default = zombie_loader.get("default")
         resources = zombie_loader.get(attributes)
+        resources = zombie_loader.update(default, resources)
+        resources["health"] *= (1+difficulty/100)
+        resources["speed"] *= (1+difficulty/200)
         Entity.__init__(self, resources, 'zombies', x, y)
-        self.weapon_registry = WeaponRegistry(pg.sprite.RenderPlain(()), ["Fist"])
+        self.weapon_registry = WeaponRegistry(pg.sprite.RenderPlain(()), ["Default"])
         self.weapon_resources = weapon_loader.get(resources["weapon"])
         self.weapon = Weapon(bullet_registry, resources = self.weapon_resources)
-        self.weapon_registry.register("Fist", self.weapon)
-        self.weapon_registry.equip("Fist")
+        self.weapon_registry.register("Default", self.weapon)
+        self.weapon_registry.equip("Default")
 
     def hit(self, damage):
         self.health -= damage

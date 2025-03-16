@@ -1,9 +1,4 @@
 {
     "zombie": {
-        "sprite": "zombie.png",
-        "health": 10,
-        "speed": 5,
-        "hitbox": [24, 16, 72, 112],
-        "weapon": "fist"
     }
 }

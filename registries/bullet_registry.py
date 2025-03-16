@@ -41,7 +41,7 @@ class BulletRegistry:
     def get(self):
         for bullet in self.bullets:
             if bullet is not None:
-                if bullet.x < 3000 and bullet.y < 1500 and bullet.damage > 0:
+                if bullet.x > -100 and bullet.x < 3000 and bullet.y > -100 and bullet.y < 1500 and bullet.damage > 0:
                     yield bullet
 
     def update(self):
