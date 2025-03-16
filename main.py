@@ -38,13 +38,7 @@ while running:
             zombie_registry.register(ent.Zombie('zombie', 1500, 500))
 
     #hit register
-    bullets = bullet_registry.get()
-    zombies = zombie_registry.get()
-    for bullet in bullets:
-        for zombie in zombies:
-            if(hitreg(zombie.hitbox, bullet)):
-                zombie.hit(bullet.damage)
-                bullet.hit()
+    hitreg(zombie_registry, bullet_registry)
 
     # clear screen
     screen.fill(color=(200,200,200))

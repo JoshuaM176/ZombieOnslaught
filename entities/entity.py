@@ -13,4 +13,7 @@ class Entity(pg.sprite.Sprite):
         self.posx = x
         self.posy = y
         self.hitbox = HitBox(self.posx, self.posy, *resources.get('hitbox'))
+
+    def hit():
+        pass
     
