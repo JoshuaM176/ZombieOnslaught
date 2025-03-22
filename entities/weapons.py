@@ -54,7 +54,7 @@ class Weapon(pg.sprite.Sprite):
         self.recoil_control = recoil_control
         self.max_recoil = max_recoil
 
-    def init_ammo(self, bullets_per_mag, max_mags, reload_time):
+    def init_ammo(self, bullets_per_mag, max_mags, reload_time, reload_type, bullet_in_chamber):
         self.bullets = bullets_per_mag
         self.bullets_per_mag = bullets_per_mag
         self.mags = max_mags
@@ -62,9 +62,16 @@ class Weapon(pg.sprite.Sprite):
         self.reload_time = reload_time * 60
         self.reload_progress = 0
         self.reloading = False
+        self.reload_type = reload_type
+        if bullet_in_chamber == 1:
+            self.bullet_in_chamber = 1
+            self.bic = True
+        else: self.bic = False
 
     def send_to_ui(self):
         info = {"bullets": self.bullets, "max_bullets": self.bullets_per_mag, "mags": self.mags, "max_mags": self.max_mags, "reload_progress": self.reload_progress/self.reload_time, "reload_time_left": self.reload_time-self.reload_progress, "name": self.name}
+        if self.bic:
+            info["bullets"] += self.bullet_in_chamber
         if self.ui is not None:
             self.ui.send({"weapon": info})
     
@@ -82,7 +89,13 @@ class Weapon(pg.sprite.Sprite):
         self.bullet["x"] = x + self.bullet["shiftX"]
         self.bullet["y"] = y + self.bullet["shiftY"]
         self.bullet_registry.register(Bullet(**self.bullet, hor = 20, ver = -self.ver + rand.normalvariate(0, 0.1), color = self.bullet.get('color') or (250, 250, 0)))
-        self.bullets -= 1
+        if self.bic:
+            self.bullet_in_chamber -= 1
+            if self.bullets > 0:
+                self.bullets -= 1
+                self.bullet_in_chamber = 1
+        else:
+            self.bullets -= 1
 
     def reload(self):
         step = self.reload_progress//self.time_per_reload_step
@@ -90,27 +103,49 @@ class Weapon(pg.sprite.Sprite):
         self.reload_progress += 1
         #self.image, self.rect = self.reload_sprites[step]
         if self.reload_progress >= self.reload_time:
-            self.bullets = self.bullets_per_mag
+            if self.reload_type == 0:
+                self.bullets = self.bullets_per_mag
+                self.reloading = False
+            if self.reload_type == 1:
+                self.bullets += 1
+                if self.bullets >= self.bullets_per_mag:
+                    self.reloading = False
             self.reload_progress = 0
-            self.reloading = False
             self.image, self.rect = self.default
+            self.mags -= 1
 
     def update(self, pX, pY, shoot: bool, reload: bool):
         self.rtn = shoot
+        if shoot and self.reload_type == 1:
+            self.reloading = False
+            self.reload_progress = 0
+            self.image, self.rect = self.default
         #Reloading
-        if reload == True:
+        if reload == True and self.bullets <= self.bullets_per_mag:
             self.reloading = True
-        if self.reloading == True:
+        if self.reloading == True and self.mags > 0:
+            if self.reload_type == 0:
+                self.bullets = 0
             self.reload()
             self.rtn = False
+        else: self.reloading = False
         #Shooting
         x = pX + self.weapon["shiftX"]
         y = pY + self.weapon["shiftY"]
         if self.clock < self.ticksToFire:
             self.clock+=1
-        if shoot and self.clock >= self.ticksToFire and self.bullets > 0 and self.reloading == False:
-            self.clock -= self.ticksToFire
-            self.shoot(x, y)
+        if shoot and self.clock >= self.ticksToFire:
+            if self.bic:
+                if self.bullet_in_chamber == 0:
+                    if self.bullets > 0:
+                        self.bullets -= 1
+                        self.bullet_in_chamber = 1
+                if self.bullet_in_chamber == 1:
+                    self.clock -= self.ticksToFire
+                    self.shoot(x, y)
+            else:
+                self.clock -= self.ticksToFire
+                self.shoot(x, y)
             if self.weapon["burst"] == 1:
                 self.rtn = False
         #Recoil

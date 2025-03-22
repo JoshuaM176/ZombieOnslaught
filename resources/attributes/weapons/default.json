@@ -20,7 +20,9 @@
             "ammo": {
                 "bullets_per_mag": 30,
                 "max_mags": 10,
-                "reload_time": 1
+                "reload_time": 1,
+                "reload_type": 0,
+                "bullet_in_chamber": 1
             }
         },
         "bullet": {
