@@ -4,14 +4,23 @@
             "movement": 0
         },
         "weapon":{
-            "sprite": "none.png",
+            "sprites": {
+                "default": "mp7.png",
+                "reloading": ["mp7-R1.png", "mp7-R2.png", "mp7-R3.png", "mp7-R2.png", "mp7-R1.png"]
+            },
             "firerate": 60,
+            "burst": 0,
             "shiftX": 0,
             "shiftY": 0,
             "recoil": {
                 "recoil": 0,
                 "recoil_control": 1,
                 "max_recoil": 0
+            },
+            "ammo": {
+                "bullets_per_mag": 30,
+                "max_mags": 10,
+                "reload_time": 1
             }
         },
         "bullet": {
@@ -21,7 +30,7 @@
             "penetration": 0,
             "shiftX": 80,
             "shiftY": 60,
-            "tracer": "false"
+            "tracer": "true"
         }
     }
 }

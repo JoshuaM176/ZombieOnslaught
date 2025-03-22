@@ -11,7 +11,6 @@ class Game:
         self.properties = {"wave": 0}
         self.spawn_rates = ["zombie"] * 500
         self.spawn_index = 0
-        pass
 
     def new_wave(self, zombie_registry: ZombieRegistry, bullet_registry: BulletRegistry, x, y):
         self.properties["wave"] += 1
@@ -21,7 +20,7 @@ class Game:
         i = 0
         while i < number_of_zombies:
             zombie = self.spawn_rates[math.floor(rand.uniform(0,499.99))]
-            zombie_registry.register(Zombie(zombie, rand.uniform(x, maxX), rand.uniform(0, y-256), bullet_registry, wave))
+            zombie_registry.register(Zombie(zombie, rand.uniform(x, maxX), rand.uniform(0, y-506), bullet_registry, wave))
             i += 1
 
     def add_to_spawn_pool(self, zombie: str, num: int):

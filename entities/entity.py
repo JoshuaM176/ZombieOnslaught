@@ -9,7 +9,9 @@ class Entity(pg.sprite.Sprite):
         self.sprite = resources.get('sprite') or 'zombie.png'
         self.image, self.rect = load_sprite(self.sprite, category, colorkey)
         self.speed = resources.get('speed') or 5
+        self.max_health = resources.get('health')
         self.health = resources.get('health') or 10
+        self.uiShiftX = resources.get('uiShiftX') or 0
         self.posx = x
         self.posy = y
         self.hitbox = HitBox(self.posx, self.posy, *resources.get('hitbox'))

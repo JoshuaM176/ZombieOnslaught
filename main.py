@@ -6,7 +6,7 @@ from resources.mappings.player_input import inp, p_inp_map, r_inp_map
 from registries.zombie_registry import ZombieRegistry
 from registries.bullet_registry import TracerRegistry, BulletRegistry
 from entities.hitreg import hitreg, hitreg1
-from ui.ui import UI
+from game.ui import UI
 from game.game import Game
 
 pg.init()
@@ -15,10 +15,11 @@ clock = pg.time.Clock()
 running = True
 game = Game()
 eventQ = queue.Queue()
-zombie_registry = ZombieRegistry(pg.sprite.RenderPlain(()))
+ui = UI(screen)
+zombie_registry = ZombieRegistry(pg.sprite.RenderPlain(()), ui)
 zombie_bullet_registry = BulletRegistry(TracerRegistry(1000, screen), 200)
 bullet_registry = BulletRegistry(TracerRegistry(1000, screen), 200)
-player = Player(screen, bullet_registry, pg.sprite.RenderPlain(()))
+player = Player(screen, bullet_registry, pg.sprite.RenderPlain(()), ui)
 
 while running:
     # poll for events
@@ -55,6 +56,7 @@ while running:
     zombie_bullet_registry.update()
     player.process(inp)
     zombie_registry.update(screen)
+    ui.draw()
 
     pg.display.flip()
 

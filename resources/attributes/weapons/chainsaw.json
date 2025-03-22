@@ -1,10 +1,13 @@
 {
-    "chainsaw": {
+    "Chainsaw": {
         "player": {
             "movement": 8
         },
         "weapon": {
-            "sprite": "chainsaw.png",
+            "sprites": {
+                "default": "chainsaw.png",
+                "reloading": ["chainsaw.png"]
+            },
             "firerate": 600,
             "shiftX": 40,
             "shiftY": 15,

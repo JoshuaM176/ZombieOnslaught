@@ -30,7 +30,7 @@ class Zombie(Entity):
         self.health -= damage
 
     def update_weapon(self, screen):
-        self.weapon_registry.update(screen, self.posx, self.posy, True)
+        self.weapon_registry.update(screen, self.posx, self.posy, True, False)
 
     def update(self):
         self.posx -= self.speed

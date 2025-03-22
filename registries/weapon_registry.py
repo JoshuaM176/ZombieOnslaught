@@ -1,9 +1,11 @@
 import pygame as pg
 from entities.weapons import Weapon
+from game.ui import UI
 
 class WeaponRegistry:
     
-    def __init__(self, render_plain: pg.sprite.RenderPlain, weapon_classes: list[str]):
+    def __init__(self, render_plain: pg.sprite.RenderPlain, weapon_classes: list[str], ui = None):
+        self.ui = ui
         self.weapons: dict[str: Weapon] = {}
         for weapon in weapon_classes:
             self.weapons[weapon] = None
@@ -28,13 +30,19 @@ class WeaponRegistry:
             return self.weapons[self.equipped]
         return None
     
-    def update(self, screen: pg.display, eX: int, eY: int, shoot: bool):
-        self.render_plain.update(eX, eY, shoot)
+    def update(self, screen: pg.display, eX: int, eY: int, shoot: bool, reload: bool):
+        self.render_plain.update(eX, eY, shoot, reload)
         self.render_plain.draw(screen)
+        if self.get_return() is not None:
+            return self.get_return()
+        return shoot
+    
+    def get_return(self):
+        return self.get_equipped().rtn
 
     def load_default_weapons(self, bullet_registry):
-        self.register("SMG", Weapon(bullet_registry, "mp7"))
-        self.register("Melee", Weapon(bullet_registry, "chainsaw"))
+        self.register("SMG", Weapon(bullet_registry, "MP7", self.ui))
+        self.register("Melee", Weapon(bullet_registry, "Chainsaw", self.ui))
         self.equip("Melee")
 
     def load_weapon(self, weapon_class: str, weapon: str, bullet_registry):

@@ -4,7 +4,9 @@
             "movement": 0
         },
         "weapon":{
-            "sprite": "none.png",
+            "sprites": {
+                "default": "none.png"
+            },
             "firerate": 60,
             "recoil": {
                 "recoil": 1,

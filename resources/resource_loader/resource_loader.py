@@ -23,7 +23,10 @@ class ResourceLoader:
 
     def update(self, data: dict, new_data: dict):
         for key, value in new_data.items():
-            data[key] = value
+            if type(data[key]) == dict and new_data.get(key) is not None:
+                self.update(data[key], new_data[key])
+            else:
+                data[key] = value
         return data
 
     def get(self, name: str):
