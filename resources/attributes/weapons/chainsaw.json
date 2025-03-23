@@ -6,7 +6,8 @@
         "weapon": {
             "sprites": {
                 "default": "chainsaw.png",
-                "reloading": ["chainsaw.png"]
+                "reloading": ["chainsaw.png"],
+                "fire_sprite": "chainsaw.png"
             },
             "firerate": 600,
             "shiftX": 40,

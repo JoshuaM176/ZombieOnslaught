@@ -42,8 +42,12 @@ class Weapon(pg.sprite.Sprite):
         self.clock = 0
         self.ticksToFire = 3600/self.weapon['firerate']
 
-    def init_sprites(self, default, reloading, colorkey):
+    def init_sprites(self, default, reloading, extra_reload_sprite, fire_sprite, fire_animation_length, colorkey):
         self.default = load_sprite(default, 'weapons', colorkey)
+        self.extra_reload_sprite = load_sprite(extra_reload_sprite, 'weapons', colorkey)
+        self.fire_sprite = load_sprite(fire_sprite, 'weapons', colorkey)
+        self.fire_animation_time = 0
+        self.fire_animation_length = fire_animation_length
         self.reload_sprites = []
         for sprite in reloading:
             self.reload_sprites.append(load_sprite(sprite, 'weapons', colorkey))
@@ -54,7 +58,7 @@ class Weapon(pg.sprite.Sprite):
         self.recoil_control = recoil_control
         self.max_recoil = max_recoil
 
-    def init_ammo(self, bullets_per_mag, max_mags, reload_time, reload_type, bullet_in_chamber):
+    def init_ammo(self, bullets_per_mag, max_mags, reload_time, reload_type, bullet_in_chamber, reload_on_empty):
         self.bullets = bullets_per_mag
         self.bullets_per_mag = bullets_per_mag
         self.mags = max_mags
@@ -66,7 +70,10 @@ class Weapon(pg.sprite.Sprite):
         if bullet_in_chamber == 1:
             self.bullet_in_chamber = 1
             self.bic = True
-        else: self.bic = False
+        else:
+            self.bullet_in_chamber = 0
+            self.bic = False
+        self.reload_on_empty = reload_on_empty*60
 
     def send_to_ui(self):
         info = {"bullets": self.bullets, "max_bullets": self.bullets_per_mag, "mags": self.mags, "max_mags": self.max_mags, "reload_progress": self.reload_progress/self.reload_time, "reload_time_left": self.reload_time-self.reload_progress, "name": self.name}
@@ -86,6 +93,7 @@ class Weapon(pg.sprite.Sprite):
                 self.ver = 0
 
     def shoot(self, x: int, y: int):
+        self.fire_animation_time = self.fire_animation_length
         self.bullet["x"] = x + self.bullet["shiftX"]
         self.bullet["y"] = y + self.bullet["shiftY"]
         self.bullet_registry.register(Bullet(**self.bullet, hor = 20, ver = -self.ver + rand.normalvariate(0, 0.1), color = self.bullet.get('color') or (250, 250, 0)))
@@ -99,10 +107,12 @@ class Weapon(pg.sprite.Sprite):
 
     def reload(self):
         step = self.reload_progress//self.time_per_reload_step
-        self.image, self.rect = self.reload_sprites[int(step)]
-        self.reload_progress += 1
-        #self.image, self.rect = self.reload_sprites[step]
         if self.reload_progress >= self.reload_time:
+            self.image, self.rect = self.extra_reload_sprite
+        else:
+            self.image, self.rect = self.reload_sprites[int(step)]
+        self.reload_progress += 1
+        if self.reload_progress >= self.reload_time + (self.bic-self.bullet_in_chamber)*self.reload_on_empty:
             if self.reload_type == 0:
                 self.bullets = self.bullets_per_mag
                 self.reloading = False
@@ -110,16 +120,18 @@ class Weapon(pg.sprite.Sprite):
                 self.bullets += 1
                 if self.bullets >= self.bullets_per_mag:
                     self.reloading = False
+            if self.bic and self.bullet_in_chamber == 0:
+                self.bullets -= 1
+                self.bullet_in_chamber += 1
             self.reload_progress = 0
-            self.image, self.rect = self.default
             self.mags -= 1
 
     def update(self, pX, pY, shoot: bool, reload: bool):
+        self.image, self.rect = self.default
         self.rtn = shoot
         if shoot and self.reload_type == 1:
             self.reloading = False
             self.reload_progress = 0
-            self.image, self.rect = self.default
         #Reloading
         if reload == True and self.bullets <= self.bullets_per_mag:
             self.reloading = True
@@ -148,6 +160,9 @@ class Weapon(pg.sprite.Sprite):
                 self.shoot(x, y)
             if self.weapon["burst"] == 1:
                 self.rtn = False
+        if self.fire_animation_time > 0:
+            self.fire_animation_time -= 1
+            self.image, self.rect = self.fire_sprite
         #Recoil
         self.update_recoil(shoot, self.recoil, self.recoil_control, self.max_recoil)
         #UI
