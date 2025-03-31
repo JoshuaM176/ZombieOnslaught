@@ -5,10 +5,10 @@ from registries.weapon_registry import WeaponRegistry
 from registries.bullet_registry import BulletRegistry
 from entities.weapons import Weapon
 
-zombie_loader = ResourceLoader('zombies')
+zombie_loader = ResourceLoader('zombies', 'attributes')
 zombie_loader.load_all()
 
-weapon_loader = ResourceLoader('weapons')
+weapon_loader = ResourceLoader('weapons', 'attributes')
 weapon_loader.load_all()
 
 class Zombie(Entity):

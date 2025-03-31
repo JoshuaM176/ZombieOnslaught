@@ -6,9 +6,9 @@ ROOT = path.abspath(curdir)
 
 class ResourceLoader:
 
-    def __init__(self, resource: str):
+    def __init__(self, resource: str, location: str):
         self.resources = {}
-        self.rPath = path.join(ROOT, 'resources', 'attributes', resource)
+        self.rPath = path.join(ROOT, 'resources', location, resource)
         self.files = listdir(self.rPath)
 
     def load(self, path: path):

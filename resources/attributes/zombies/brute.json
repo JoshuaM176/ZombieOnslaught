@@ -1,0 +1,7 @@
+{
+    "brute": {
+        "sprite": "zombie.png",
+        "health": 100,
+        "speed": 2
+    }
+}

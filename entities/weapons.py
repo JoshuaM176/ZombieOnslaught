@@ -6,7 +6,7 @@ from resources.resources import load_sprite
 from game.ui import UI
 import random as rand
 
-weapon_loader = ResourceLoader('weapons')
+weapon_loader = ResourceLoader('weapons', 'attributes')
 weapon_loader.load_all()
 
 class Weapon(pg.sprite.Sprite):
@@ -24,8 +24,8 @@ class Weapon(pg.sprite.Sprite):
         self.weapon = resources['weapon']
         self.player = resources['player']
         self.bullet = resources["bullet"]
-        self.init_recoil(**resources["weapon"]["recoil"])
-        self.init_ammo(**resources["weapon"]["ammo"])
+        self.init_recoil(self.weapon["recoil"])
+        self.init_ammo(self.weapon["ammo"])
         self.ver = 0
         self.init_sprites(**resources["weapon"]["sprites"], colorkey = colorkey)
         self.image, self.rect = self.default
@@ -53,27 +53,23 @@ class Weapon(pg.sprite.Sprite):
             self.reload_sprites.append(load_sprite(sprite, 'weapons', colorkey))
         self.time_per_reload_step = self.reload_time/len(self.reload_sprites)
 
-    def init_recoil(self, recoil, recoil_control, max_recoil):
-        self.recoil = recoil
-        self.recoil_control = recoil_control
-        self.max_recoil = max_recoil
+    def init_recoil(self, data):
+        for key, value in data.items():
+            setattr(self, key, value)
 
-    def init_ammo(self, bullets_per_mag, max_mags, reload_time, reload_type, bullet_in_chamber, reload_on_empty):
-        self.bullets = bullets_per_mag
-        self.bullets_per_mag = bullets_per_mag
-        self.mags = max_mags
-        self.max_mags = max_mags
-        self.reload_time = reload_time * 60
+    def init_ammo(self, data):
+        for key, value in data.items():
+            setattr(self, key, value)
+        self.bullets = self.bullets_per_mag
+        self.mags = self.max_mags
+        self.reload_time = self.reload_time * 60
         self.reload_progress = 0
         self.reloading = False
-        self.reload_type = reload_type
-        if bullet_in_chamber == 1:
-            self.bullet_in_chamber = 1
+        if self.bullet_in_chamber == 1:
             self.bic = True
         else:
-            self.bullet_in_chamber = 0
             self.bic = False
-        self.reload_on_empty = reload_on_empty*60
+        self.reload_on_empty = self.reload_on_empty*60
 
     def send_to_ui(self):
         info = {"bullets": self.bullets, "max_bullets": self.bullets_per_mag, "mags": self.mags, "max_mags": self.max_mags, "reload_progress": self.reload_progress/self.reload_time, "reload_time_left": self.reload_time-self.reload_progress, "name": self.name}
