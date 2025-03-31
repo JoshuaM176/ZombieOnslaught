@@ -1,6 +1,5 @@
 import queue
 import pygame as pg
-import entities.zombies as ent
 from entities.player import Player
 from resources.mappings.player_input import inp, p_inp_map, r_inp_map
 from registries.zombie_registry import ZombieRegistry
@@ -8,7 +7,9 @@ from registries.bullet_registry import TracerRegistry, BulletRegistry
 from entities.hitreg import hitreg, hitreg1
 from game.ui import UI
 from game.game import Game
+from screeninfo import get_monitors
 
+screen_info = get_monitors()
 pg.init()
 screen = pg.display.set_mode((1920, 1080))
 clock = pg.time.Clock()
