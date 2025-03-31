@@ -1,7 +1,7 @@
 import math
 
 class Bullet:
-    def __init__(self, x: int, y: int, hor: int, ver: int, speed: int, damage: int, dropoff: float, penetration: float, color, tracer, **_):
+    def __init__(self, x: int, y: int, hor: int, ver: int, speed: int, damage: int, head_mult: float, dropoff: float, penetration: float, color, tracer, **_):
         self.x = x
         self.y = y
         mult = speed/math.sqrt(hor**2 + ver**2)
@@ -12,6 +12,7 @@ class Bullet:
         self.dropoff = dropoff * abs(speed)/100
         self.color = color
         self.tracer = tracer
+        self.head_mult = head_mult
 
     def hit(self):
         self.damage *= self.penetration

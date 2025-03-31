@@ -11,7 +11,10 @@ def hitreg1(entities: list[Entity], bullets):
     for bullet in bullets:
         for entity in entities:
             if(hitreg2(entity.hitbox, bullet)):
-                entity.hit(bullet.damage)
+                if(hitreg2(entity.head_hitbox, bullet)):
+                    entity.hit(bullet.damage * bullet.head_mult)
+                else:
+                    entity.hit(bullet.damage)
                 bullet.hit()
 
 def hitreg2(hitbox: HitBox, bullet: Bullet):

@@ -11,7 +11,7 @@ class Player(Entity):
         self.ui = ui
         self.weapons = ["Melee", "SMG"]
         self.index = 0
-        resources = {"sprite": "player.png", "speed": 5, "health": 10, "hitbox": [24, 16, 72, 112]}
+        resources = {"sprite": "player.png", "speed": 5, "health": 10, "hitbox": [24, 16, 72, 112], "head_hitbox": [24, 16, 72, 24]}
         Entity.__init__(self, resources, "player", 300, 300)
         self.weapon_registry = WeaponRegistry(pg.sprite.RenderPlain(()), self.weapons, ui)
         self.weapon_registry.load_default_weapons(bullet_registry)

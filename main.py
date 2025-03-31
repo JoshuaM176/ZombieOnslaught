@@ -14,9 +14,9 @@ pg.init()
 screen = pg.display.set_mode((1920, 1080))
 clock = pg.time.Clock()
 running = True
-game = Game()
 eventQ = queue.Queue()
 ui = UI(screen)
+game = Game(ui)
 zombie_registry = ZombieRegistry(pg.sprite.RenderPlain(()), ui)
 zombie_bullet_registry = BulletRegistry(TracerRegistry(1000, screen), 200)
 bullet_registry = BulletRegistry(TracerRegistry(1000, screen), 200)
@@ -48,9 +48,10 @@ while running:
     # clear screen
     screen.fill(color=(200,200,200))
     #debug
-    #zombies = zombie_registry.get()
+    zombies = zombie_registry.get()
     #for zombie in zombies:
         #zombie.hitbox.display(screen)
+        #zombie.head_hitbox.display(screen)
     #player.hitbox.display(screen)
     #render game
     bullet_registry.update()

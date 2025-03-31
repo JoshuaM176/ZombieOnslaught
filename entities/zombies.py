@@ -35,6 +35,7 @@ class Zombie(Entity):
     def update(self):
         self.posx -= self.speed
         self.hitbox.update(self.posx, self.posy)
+        self.head_hitbox.update(self.posx,self.posy)
         self.rect.topleft = (self.posx, self.posy)
 
 

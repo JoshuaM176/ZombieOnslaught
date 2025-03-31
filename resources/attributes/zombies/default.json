@@ -4,6 +4,7 @@
         "health": 10,
         "speed": 3,
         "hitbox": [24, 16, 72, 112],
+        "head_hitbox": [24, 16, 72, 32],
         "weapon": "fist",
         "regen": 0,
         "uiShiftX": 13

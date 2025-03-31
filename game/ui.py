@@ -5,7 +5,7 @@ class UI:
     def __init__(self, screen: pg.display):
         self.screen = screen
         self.render_plain = pg.sprite.RenderPlain
-        self.properties = {"player": {}, "zombies": [{}], "weapon": {}}
+        self.properties = {"player": {}, "zombies": [{}], "weapon": {}, "game": {"wave": 0}}
 
     def send(self, values: dict):
         self.properties = self.update(self.properties, values)
@@ -69,6 +69,13 @@ class UI:
         text = str(name)
         text = font.render(text, True, (0,0,0))
         self.screen.blit(text, (50, y-150))
+        ##Round
+        font = pg.font.Font(pg.font.get_default_font(), 40)
+        wave = self.properties["game"]["wave"]
+        text = str(f"WAVE: {wave}")
+        text = font.render(text, True, (0,0,0))
+        text_rect = text.get_rect(center = (x/2, y-225))
+        self.screen.blit(text, text_rect)
 
 
         

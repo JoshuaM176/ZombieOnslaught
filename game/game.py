@@ -5,13 +5,15 @@ from registries.bullet_registry import BulletRegistry
 from entities.zombies import Zombie
 from resources.resource_loader.resource_loader import ResourceLoader
 from pathlib import Path
+from game.ui import UI
 
 spawn_loader = ResourceLoader('spawn_rates', 'game')
 spawn_loader.load_all()
 
 class Game:
 
-    def __init__(self):
+    def __init__(self, ui: UI):
+        self.ui = ui
         self.properties = {"wave": 0}
         self.spawn_rates = ["zombie"] * 500
         self.spawn_index = 0
@@ -19,6 +21,7 @@ class Game:
 
     def new_wave(self, zombie_registry: ZombieRegistry, bullet_registry: BulletRegistry, x, y):
         self.properties["wave"] += 1
+        self.send_to_ui()
         for data in self.spawn_data:
             self.update_spawn_rates(data)
         wave = self.properties["wave"]
@@ -46,3 +49,7 @@ class Game:
         self.spawn_index += 1
         if self.spawn_index == 500:
             self.spawn_index = 0
+
+    def send_to_ui(self):
+        info = {"wave": self.properties["wave"]}
+        self.ui.send({"game": info})

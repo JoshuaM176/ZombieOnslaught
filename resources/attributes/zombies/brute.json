@@ -1,7 +1,7 @@
 {
     "brute": {
-        "sprite": "zombie.png",
-        "health": 100,
+        "sprite": "brute.png",
+        "health": 25,
         "speed": 2
     }
 }
