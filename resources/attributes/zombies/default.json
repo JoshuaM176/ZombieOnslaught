@@ -7,6 +7,7 @@
         "head_hitbox": [24, 16, 72, 32],
         "weapon": "fist",
         "regen": 0,
+        "reward": 10,
         "uiShiftX": 13
     }
 }

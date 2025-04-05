@@ -33,6 +33,7 @@ class ZombieRegistry(EntityRegistry):
     def __init__(self, render_plain: pg.sprite.RenderPlain, ui: UI):
         super().__init__(render_plain, ui)
         self.entities: list[Zombie] = []
+        self.money = 0
 
     def register(self, zombie: Zombie):
         super().register(zombie)
@@ -45,6 +46,7 @@ class ZombieRegistry(EntityRegistry):
             if zombie.posx < -100:
                 self.deregister(zombie)
             elif zombie.health < 0:
+                self.money += zombie.reward
                 self.deregister(zombie)
 
     def update(self, screen: pg.display):
@@ -53,9 +55,14 @@ class ZombieRegistry(EntityRegistry):
         for zombie in self.entities:
             zombie.update_weapon(screen)
 
+    def get_money(self):
+        rtn = self.money
+        self.money = 0
+        return rtn
+
     def send_to_ui(self):
         info = []
         for zombie in self.entities:
             toAdd = {"max_health": zombie.max_health, "health": zombie.health, "x": zombie.posx, "y": zombie.posy, "shiftX": zombie.uiShiftX}
             info.append(toAdd)
-        self.ui.send({"zombies": info})
+        self.ui.send({"zombies": info, "money": self.money})

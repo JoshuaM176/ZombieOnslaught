@@ -20,6 +20,7 @@ class Zombie(Entity):
         resources["health"] *= (1+difficulty/100)
         resources["speed"] *= (1+difficulty/200)
         Entity.__init__(self, resources, 'zombies', x, y)
+        self.reward = resources["reward"]
         self.weapon_registry = WeaponRegistry(pg.sprite.RenderPlain(()), ["Default"])
         self.weapon_resources = weapon_loader.get(resources["weapon"])
         self.weapon = Weapon(bullet_registry, resources = self.weapon_resources)

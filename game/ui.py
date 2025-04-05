@@ -57,6 +57,7 @@ class UI:
         max_mags = weapon["max_mags"]
         mags = weapon["mags"]
         name = weapon["name"]
+
         x = self.screen.get_width()
         y = self.screen.get_height()
         text = str(f"{bullets}/{max_bullets}")
@@ -75,6 +76,13 @@ class UI:
         text = str(f"WAVE: {wave}")
         text = font.render(text, True, (0,0,0))
         text_rect = text.get_rect(center = (x/2, y-225))
+        self.screen.blit(text, text_rect)
+        ##Money
+        font = pg.font.Font(pg.font.get_default_font(), 20)
+        money = self.properties["game"]["money"]
+        text = str(f"${money}")
+        text = font.render(text, True, (0,0,0))
+        text_rect = text.get_rect(topright=(x-50, y-225))
         self.screen.blit(text, text_rect)
 
 

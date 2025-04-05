@@ -1,6 +1,5 @@
 import pygame as pg
 from entities.weapons import Weapon
-from game.ui import UI
 
 class WeaponRegistry:
     
